@@ -28,10 +28,7 @@ import DocsChangelog from "./documentation/DocsChangelog";
 
 // components
 import Sidebar from "../components/Sidebar";
-import SidebarHRD from "../components/SidebarHRD";
-import SidebarAdmin from "../components/SidebarAdmin";
-import SidebarJobs from "../components/SidebarJobs";
-import SidebarInterviewer from "../components/SidebarInterviewer";
+import SidebarDrug from "../components/SidebarDrug";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
@@ -52,26 +49,26 @@ import Tables from "./components/Tables";
 import Tabs from "./components/Tabs";
 import Tooltips from "./components/Tooltips";
 import Toasts from "./components/Toasts";
-import Register from "./Register";
-import { Children } from "react";
 import RegisterUser from "./RegisterUser";
-import ResultData from "./ResultData";
-import ResultDataDetail from "./ResultDataDetail";
-import PrepareTest from "./PrepareTest";
-import TestPage from "./TestPage";
-import { useSelector } from "react-redux";
+import Drugs from "./Drugs";
+import { useDispatch, useSelector } from "react-redux";
+import { setCompany } from "../store/actions/action";
+import menu from "../data/menu";
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
   const history = useHistory();
-  const { isLogin } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { isLogin, companyName } = useSelector((state) => state);
 
   useEffect(() => {
-    if (!localStorage.getItem("username") && !isLogin) history.push("/sign-in");
+    // if (!localStorage.getItem("username") && !isLogin) history.push("/sign-in");
+    dispatch(setCompany(menu[0].company));
     const timer = setTimeout(() => setLoaded(true), 1000);
     return () => clearTimeout(timer);
   }, [history, isLogin]);
-
+  
+  console.log("🚀 ~ file: HomePage.js ~ line 65 ~ RouteWithLoader ~ companyName", companyName)
   return (
     <Route
       {...rest}
@@ -88,10 +85,12 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
 const RouteWithSidebar = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
   const history = useHistory();
-  const { isLogin } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { isLogin, isCompany } = useSelector((state) => state);
 
   useEffect(() => {
-    if (!localStorage.getItem("username") && !isLogin) history.push("/sign-in");
+    // if (!localStorage.getItem("username") && !isLogin) history.push("/sign-in");
+    dispatch(setCompany(menu[0].company));
     const timer = setTimeout(() => setLoaded(true), 1000);
     return () => clearTimeout(timer);
   }, [history, isLogin]);
@@ -100,7 +99,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
     return localStorage.getItem("settingsVisible") === "false" ? false : true;
   };
 
-  const localStorageIsUser = localStorage.getItem("username");
+  const localStorageIsUser = localStorage.getItem("userName");
 
   const [showSettings, setShowSettings] = useState(
     localStorageIsSettingsVisible
@@ -116,19 +115,9 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
       case "original":
         return <Sidebar />;
         break;
-      case "hrd":
-        return <SidebarHRD />;
+      case "drug":
+        return <SidebarDrug />;
         break;
-      case "admin":
-        return <SidebarAdmin />;
-        break;
-      case "jobseeker":
-        return <SidebarJobs />;
-        break;
-      case "interviewer":
-        return <SidebarInterviewer />;
-        break;
-
       default:
         return <Sidebar />;
         break;
@@ -191,31 +180,12 @@ export default () => (
     />
 
     {/* pages */}
-    <RouteWithSidebar exact path={Routes.TestPage.path} component={TestPage} />
-    <RouteWithSidebar
-      exact
-      path={Routes.PrepareTest.path}
-      component={PrepareTest}
-    />
 
-    <RouteWithSidebar exact path={Routes.Register.path} component={Register} />
-
+    <RouteWithSidebar exact path={Routes.Drugs.path} component={Drugs} />
     <RouteWithSidebar
       exact
       path={Routes.RegisterUser.path}
       component={RegisterUser}
-    />
-
-    <RouteWithSidebar
-      exact
-      path={Routes.ResultData.path}
-      component={ResultData}
-    />
-
-    <RouteWithSidebar
-      exact
-      path={Routes.ResultDataDetail.path}
-      component={ResultDataDetail}
     />
 
     <RouteWithSidebar

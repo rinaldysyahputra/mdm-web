@@ -13,10 +13,10 @@
 
 // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
 
 // core styles
 import "./scss/volt.scss";
@@ -27,20 +27,15 @@ import "react-datetime/css/react-datetime.css";
 
 import HomePage from "./pages/HomePage";
 import ScrollToTop from "./components/ScrollToTop";
-import Signin from "./pages/examples/Signin"
-import store from './store/store'
+import Signin from "./pages/examples/Signin";
+import store from "./store/store";
 
 ReactDOM.render(
   <Provider store={store}>
-  <HashRouter>
-    
-
-    {/* <Signin></Signin> */}
-  <HomePage></HomePage>
-  <ScrollToTop></ScrollToTop>
- 
-  
-  </HashRouter>
+    <HashRouter>
+      <HomePage></HomePage>
+      <ScrollToTop></ScrollToTop>
+    </HashRouter>
   </Provider>,
   document.getElementById("root")
 );

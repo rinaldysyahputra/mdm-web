@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -26,8 +26,9 @@ import NOTIFICATIONS_DATA from "../data/notifications";
 import Profile3 from "../assets/img/team/logo.jpg";
 import { Routes } from "../../src/routes";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { userLogout } from "../store/actions/action";
+import { useDispatch, useSelector } from "react-redux";
+import { setCompany, userLogout } from "../store/actions/action";
+import menu from "../data/menu";
 
 export default (props) => {
   const [notifications, setNotifications] = useState(NOTIFICATIONS_DATA);
@@ -36,11 +37,17 @@ export default (props) => {
     true
   );
   const dispatch = useDispatch();
+  const { companyName } = useSelector((state) => state);
 
   const handleLogout = () => {
     dispatch(userLogout());
     localStorage.clear();
   };
+  
+  const handleCompany = (e) => {
+    dispatch(setCompany(e.target.value));
+  };
+
   const markNotificationsAsRead = () => {
     setTimeout(() => {
       setNotifications(notifications.map((n) => ({ ...n, read: true })));
@@ -92,6 +99,18 @@ export default (props) => {
             <label>PT Meditek Inovasi Global</label>
           </div>
           <Nav className="align-items-center">
+            <Form.Group className="mb-3">
+              <Form.Select
+                name="company"
+                type="text"
+                onChange={(e) => handleCompany(e)}
+              >
+                {menu.map((data) => {
+                  return <option>{data.company}</option>
+                })}
+              </Form.Select>
+            </Form.Group>
+
             <Dropdown as={Nav.Item} onToggle={markNotificationsAsRead}>
               <Dropdown.Toggle
                 as={Nav.Link}

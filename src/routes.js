@@ -10,9 +10,6 @@ export const Routes = {
     BootstrapTables: { path: "/tables/bootstrap-tables" },
     Billing: { path: "/examples/billing" },
     Invoice: { path: "/examples/invoice" },
-
-
-
     Signup: { path: "/examples/sign-up" },
     ForgotPassword: { path: "/examples/forgot-password" },
     ResetPassword: { path: "/examples/reset-password" },
@@ -51,12 +48,8 @@ export const Routes = {
 
     // interview project
     //DashboardOverview: { path: "/dashboard/overview" },
-    Register: { path: "/register" },
     RegisterUser: { path: "/register/user" },
-    ResultData: { path: "/result/jobSeekers" },
-    ResultDataDetail: { path: "/result/jobSeekers/detail" },
-    PrepareTest: { path: "/prepare/test" },
-    TestPage: { path: "/prepare/testing" },
     Signin: { path: "/sign-in" },
+    Drugs: { path: "/drugs/create" },
 
 };
