@@ -30,44 +30,12 @@ import {
 } from "@themesberg/react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { getUser, userRegister } from "../store/actions/action";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 export default () => {
-  // const [formUsername, setFormUsername] = useState("");
-  // const [formEmail, setFormEmail] = useState("");
-  // const [formPassword, setFormPassword] = useState("");
-  // const [formPasswordConfirm, setFormPasswordConfirm] = useState("");
-  // const [formRole, setFormRole] = useState("");
-
-  // let changeFormUsername = (e) => {
-  //   setFormUsername(e.target.value);
-  // };
-
-  // let changeFormEmail = (e) => {
-  //   setFormEmail(e.target.value);
-  // };
-
-  // let changeFormPassword = (e) => {
-  //   setFormPassword(e.target.value);
-  // };
-
-  // let changeFormPasswordConfirm = (e) => {
-  //   setFormPasswordConfirm(e.target.value);
-  // };
-
-  // let changeFormRole = (e) => {
-  //   setFormRole(e.target.value);
-  // };
-
   const dispatch = useDispatch();
   const history = useHistory();
-  const { users } = useSelector((state) => state);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -77,49 +45,49 @@ export default () => {
       passwordConfirm: "",
       role: "",
     },
-    validationSchema: Yup.object({
-      userName: Yup.string()
-        .min(2, "Mininum 2 characters")
-        .max(15, "Maximum 15 characters")
-        .required("Required!")
-        .test({
-          name: "duplicate-username-check",
-          params: "value",
-          message: " Already Exists",
-          test: async (value) => {
-            for (var i = 0; i < users.listUser.length; i++) {
-              if (users.listUser[i].userName === value) {
-                return false;
-              }
-            }
-            return true;
-          },
-        }),
-      email: Yup.string()
-        .email("Invalid Format")
-        .required("Required!")
-        .test({
-          name: "duplicate-email-check",
-          params: "value",
-          message: " Already Exists",
-          test: async (value) => {
-            for (var i = 0; i < users.listUser.length; i++) {
-              if (users.listUser[i].email === value) {
-                return false;
-              }
-            }
-            return true;
-          },
-        }),
-      password: Yup.string()
-        .min(5, "Minimum 5 characters")
-        .required("Required!"),
-      passwordConfirm: Yup.string()
-        .min(5, "Minimum 5 characters")
-        .oneOf([Yup.ref("password")], "not match")
-        .required("Required!"),
-      role: Yup.string().oneOf(["hrd", "interviewer"]).required("Required!"),
-    }),
+    // validationSchema: Yup.object({
+    //   userName: Yup.string()
+    //     .min(2, "Mininum 2 characters")
+    //     .max(15, "Maximum 15 characters")
+    //     .required("Required!")
+    //     .test({
+    //       name: "duplicate-username-check",
+    //       params: "value",
+    //       message: " Already Exists",
+    //       test: async (value) => {
+    //         for (var i = 0; i < users.listUser.length; i++) {
+    //           if (users.listUser[i].userName === value) {
+    //             return false;
+    //           }
+    //         }
+    //         return true;
+    //       },
+    //     }),
+    //   email: Yup.string()
+    //     .email("Invalid Format")
+    //     .required("Required!")
+    //     .test({
+    //       name: "duplicate-email-check",
+    //       params: "value",
+    //       message: " Already Exists",
+    //       test: async (value) => {
+    //         for (var i = 0; i < users.listUser.length; i++) {
+    //           if (users.listUser[i].email === value) {
+    //             return false;
+    //           }
+    //         }
+    //         return true;
+    //       },
+    //     }),
+    //   password: Yup.string()
+    //     .min(5, "Minimum 5 characters")
+    //     .required("Required!"),
+    //   passwordConfirm: Yup.string()
+    //     .min(5, "Minimum 5 characters")
+    //     .oneOf([Yup.ref("password")], "not match")
+    //     .required("Required!"),
+    //   role: Yup.string().oneOf(["hrd", "interviewer"]).required("Required!"),
+    // }),
     onSubmit: (values) => {
       const input = {
         userName: values.userName,
@@ -127,7 +95,6 @@ export default () => {
         password: values.password,
         role: values.role,
       };
-      dispatch(userRegister(input));
       history.push("/");
     },
   });

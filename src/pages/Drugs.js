@@ -30,24 +30,13 @@ import {
 } from "@themesberg/react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import {
-  getJobSeeker,
-  getUser,
-  jobSeekerRegister,
-} from "../store/actions/action";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { jobSeekers, users } = useSelector((state) => state);
-  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-  useEffect(() => {
-    dispatch(getJobSeeker());
-    dispatch(getUser());
-  }, [dispatch]);
+  const { company } = useSelector(state => state)
 
   const formik = useFormik({
     initialValues: {
@@ -60,54 +49,54 @@ export default () => {
       validFrom: "",
       validTo: "",
     },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .min(2, "Mininum 2 characters")
-        .max(255, "Maximum 255 characters")
-        .required("Required!"),
-      email: Yup.string()
-        .email("Invalid email format")
-        .required("Required!")
-        .test({
-          name: "duplicate-email-check",
-          params: "value",
-          message: "Already exists",
-          test: async (value) => {
-            for (var i = 0; i < users.listUser.length; i++) {
-              if (users.listUser[i].email === value) {
-                return false;
-              }
-            }
-            return true;
-          },
-        }),
-      phone: Yup.string()
-        .matches(phoneRegExp, "Must a valid phone number!")
-        .required("Required!")
-        .test({
-          name: "duplicate-phone-check",
-          params: "value",
-          message: "Already exists",
-          test: async (value) => {
-            for (var i = 0; i < jobSeekers.listJobSeeker.length; i++) {
-              if (jobSeekers.listJobSeeker[i].phone === value) {
-                return false;
-              }
-            }
-            return true;
-          },
-        }),
-      position: Yup.string()
-        .oneOf(["Full Stack Engineer", "Android Engineer", "IOS Engineer"])
-        .required("Required!"),
-      desc: Yup.string().min(5, "Minimum 5 characters").required("Required!"),
-      validFrom: Yup.string()
-        .min(5, "Minimum 5 characters")
-        .required("Required!"),
-      validTo: Yup.string()
-        .min(5, "Minimum 5 characters")
-        .required("Required!"),
-    }),
+    // validationSchema: Yup.object({
+    //   name: Yup.string()
+    //     .min(2, "Mininum 2 characters")
+    //     .max(255, "Maximum 255 characters")
+    //     .required("Required!"),
+    //   email: Yup.string()
+    //     .email("Invalid email format")
+    //     .required("Required!")
+    //     .test({
+    //       name: "duplicate-email-check",
+    //       params: "value",
+    //       message: "Already exists",
+    //       test: async (value) => {
+    //         for (var i = 0; i < users.listUser.length; i++) {
+    //           if (users.listUser[i].email === value) {
+    //             return false;
+    //           }
+    //         }
+    //         return true;
+    //       },
+    //     }),
+    //   phone: Yup.string()
+    //     .matches(phoneRegExp, "Must a valid phone number!")
+    //     .required("Required!")
+    //     .test({
+    //       name: "duplicate-phone-check",
+    //       params: "value",
+    //       message: "Already exists",
+    //       test: async (value) => {
+    //         for (var i = 0; i < jobSeekers.listJobSeeker.length; i++) {
+    //           if (jobSeekers.listJobSeeker[i].phone === value) {
+    //             return false;
+    //           }
+    //         }
+    //         return true;
+    //       },
+    //     }),
+    //   position: Yup.string()
+    //     .oneOf(["Full Stack Engineer", "Android Engineer", "IOS Engineer"])
+    //     .required("Required!"),
+    //   desc: Yup.string().min(5, "Minimum 5 characters").required("Required!"),
+    //   validFrom: Yup.string()
+    //     .min(5, "Minimum 5 characters")
+    //     .required("Required!"),
+    //   validTo: Yup.string()
+    //     .min(5, "Minimum 5 characters")
+    //     .required("Required!"),
+    // }),
     onSubmit: (values) => {
       const input = {
         name: values.name,
@@ -119,10 +108,10 @@ export default () => {
         validFrom: values.validFrom,
         validTo: values.validTo,
       };
-      dispatch(jobSeekerRegister(input));
       history.push("/");
     },
   });
+  console.log(company);
 
   return (
     <>
@@ -133,7 +122,7 @@ export default () => {
         >
           <div className="mb-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
             <div className="text-center text-md-center mb-4 mt-md-0">
-              <h3 className="mb-0">Register Job Seeker</h3>
+              <h3 className="mb-0">Drugs</h3>
             </div>
             <Form className="mt-4" onSubmit={formik.handleSubmit}>
               <Form.Group id="name" className="mb-4">

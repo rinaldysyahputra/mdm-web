@@ -33,29 +33,30 @@ export default () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (localStorage.getItem("username")) history.push("/");
-  });
+  // useEffect(() => {
+  //   if (localStorage.getItem("username")) history.push("/");
+  // });
 
   const formik = useFormik({
     initialValues: {
       userName: "",
       password: "",
     },
-    validationSchema: Yup.object({
-      userName: Yup.string()
-        .min(2, "Mininum 2 characters")
-        .max(255, "Maximum 255 characters")
-        .required("Required"),
-      password: Yup.string().required("Required"),
-    }),
+    // validationSchema: Yup.object({
+    //   userName: Yup.string()
+    //     .min(2, "Mininum 2 characters")
+    //     .max(255, "Maximum 255 characters")
+    //     .required("Required"),
+    //   password: Yup.string().required("Required"),
+    // }),
     onSubmit: (values) => {
       const input = {
         userName: values.userName,
         password: values.password,
       };
       // console.log("<<<<<<", input);
-      dispatch(userLogin(input));
+      // dispatch(userLogin(input));
+      localStorage.setItem("userName", "drug")
       history.push("/");
     },
   });

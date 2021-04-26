@@ -1,7 +1,6 @@
 const initialState = {
   isLogin: false,
-  users: [],
-  jobSeekers: []
+  isCompany: "",
 };
 
 export default function reducer(state = initialState, action) {
@@ -10,10 +9,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, isLogin: false };
     case "SET_LOGIN":
       return { ...state, isLogin: true };
-    case "FETCH_USER":
-      return { ...state, users: action.payload };
-    case "FETCH_JOBSEEKER":
-      return { ...state, jobSeekers: action.payload };
+    case "SET_COMPANY":
+      return { ...state, isCompany: action.payload };
     default:
       return state;
   }

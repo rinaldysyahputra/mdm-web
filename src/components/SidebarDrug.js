@@ -29,6 +29,8 @@ import { Routes } from "../routes";
 import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/team/logo.jpg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
+import menu from "../data/menu";
+import { useSelector } from "react-redux";
 
 export default (props = {}) => {
   const location = useLocation();
@@ -37,6 +39,7 @@ export default (props = {}) => {
   const showClass = show ? "show" : "";
 
   const onCollapse = () => setShow(!show);
+  const { isCompany } = useSelector((state) => state);
 
   const CollapsableNavItem = (props) => {
     const { eventKey, title, icon, children = null } = props;
@@ -175,39 +178,33 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              {/* <NavItem
-                title="Interviewer"
-                link={Routes.Presentation.path}
-                image={ReactHero}
-              /> */}
-
               <NavItem
                 title="Dashboard"
                 link={Routes.DashboardOverview.path}
                 icon={faChartPie}
               />
-
-              <NavItem
-                title="Result Job Seekers"
-                link={Routes.ResultData.path}
-                icon={faChartPie}
-              />
-
-              <NavItem
-                title="Upload Soal"
-                link={Routes.Buttons.path}
-                icon={faChartPie}
-              />
-
-              {/* <NavItem title="Sign In" link={Routes.Signin.path} /> */}
-
-              {/* <NavItem
-                external
-                title="Themesberg"
-                link="https://themesberg.com"
-                target="_blank"
-                image={ThemesbergLogo}
-              /> */}
+              {menu.map((data) => {
+                if (data.company == isCompany) {
+                  return data.list_menu.map((list) => {
+                    return (
+                      <CollapsableNavItem
+                        title={list.parent}
+                        icon={list.parent_icon}
+                      >
+                        {list.child.map((item) => {
+                          return (
+                            <NavItem
+                              link={item.child_url}
+                              title={item.child_name}
+                              icon={item.child_icon}
+                            />
+                          );
+                        })}
+                      </CollapsableNavItem>
+                    );
+                  });
+                }
+              })}
             </Nav>
           </div>
         </SimpleBar>
